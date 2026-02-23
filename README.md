@@ -8,17 +8,17 @@ If the branch `feature/cors` has not been merged, you will need to pull and use 
 
 Then add the following to your config.yaml file:
 
-### Rename and change the env file
-
-```sh
-cp example.env .env
-```
-
 ```yaml
 kiosk:
   allowed_origins:
     - http://localhost:5432 # This is the default port for the development server
     # - http://localhost:4173 # This is the default port for the preview server
+```
+
+### Rename and change the env file
+
+```sh
+cp example.env .env
 ```
 
 ## Supported URL queries:
