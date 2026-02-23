@@ -1,0 +1,19 @@
+{
+  "compilerOptions": {
+    "target": "ES5",
+    "useDefineForClassFields": true,
+    "module": "ESNext",
+    "lib": ["es2019", "DOM"],
+    "moduleResolution": "bundler",
+    "allowImportingTsExtensions": true,
+    "strict": true,
+    "sourceMap": true,
+    "resolveJsonModule": false,
+    "esModuleInterop": true,
+    "noEmit": true,
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
+    "noImplicitReturns": true,
+  },
+  "include": ["src"],
+}
