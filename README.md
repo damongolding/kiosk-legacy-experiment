@@ -3,7 +3,14 @@
 Just a quick experiement using jQuery to grab assets from Kiosk's `/asset/new` endpoint.
 
 ### Custom CSS
-As this will probably need some custom CSS to make it work. On launch it will grab the [custom CSS](https://docs.immichkiosk.app/configuration/custom-css/) from the Kiosk server and apply it to the page.
+As this will probably need some custom CSS to make it work. On launch it will grab the [custom CSS](https://docs.immichkiosk.app/configuration/custom-css/) from the Kiosk server and apply it to the page. The body has an id of `kiosk-legacy`.
+
+Example:
+```css
+#kiosk-legacy .progress--bar {
+    background-color: red;
+}
+```
 
 ## Prerequisites
 
