@@ -1,4 +1,7 @@
+import "./kiosk-legacy.css";
 import $ from "jquery";
+
+let kioskData: KioskData;
 
 const kioskURL = import.meta.env.VITE_KIOSK_URL || "http://localhost:3000";
 
@@ -18,6 +21,7 @@ $(async () => {
   const k = $("#kiosk");
   const p = $(".progress--bar");
   p.css("width", "0");
+  let duration = 60;
   const fadeDuration = 1500;
 
   const params: Record<string, string> = {};
@@ -25,7 +29,46 @@ $(async () => {
     params[key] = value;
   });
 
-  const duration = parseInt(params.duration || "10", 10);
+  const init = async () => {
+    await $.get(
+      `${kioskURL}/`,
+      params,
+      (homeData) => {
+        const kioskHomeHTML = $(homeData);
+        const kioskDataElement = kioskHomeHTML.find("#kiosk-data");
+
+        if (kioskDataElement.length) {
+          // parse kiosk data
+          kioskData = JSON.parse(kioskDataElement.text());
+
+          // Add progress bar if wanted
+          if (params.show_progress_bar !== "false") {
+            const hasProgressBar = kioskHomeHTML.find(".progress--bar");
+            if (
+              hasProgressBar.length !== 0 ||
+              params.show_progress_bar === "true"
+            ) {
+              p.css("display", "block");
+            }
+          }
+
+          // log version
+          console.log(
+            `\nImmich Kiosk (legacy) version: %c${kioskData.version}`,
+            "color: white; font-weight:600; background-color:#1e83f7; padding:0.3rem 1rem; border-radius:4px;",
+            "\n\n",
+          );
+        }
+      },
+      "html",
+    );
+
+    duration = parseInt(params.duration, 10) || kioskData.duration;
+
+    await loadAsset();
+
+    setInterval(() => loadAsset(), duration * 1000 + fadeDuration * 2);
+  };
 
   async function resetProgressBar(): Promise<void> {
     p.stop(true, false)
@@ -46,7 +89,5 @@ $(async () => {
     await k.animate({ opacity: 1 }, fadeDuration).promise();
   }
 
-  await loadAsset();
-
-  setInterval(() => loadAsset(), duration * 1000 + fadeDuration * 2);
+  init();
 });

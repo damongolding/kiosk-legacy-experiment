@@ -1,0 +1,9 @@
+.no-transition {
+    transition: none !important;
+}
+
+.progress--bar {
+    display: none;
+    transform: scaleX(1) translateZ(0) !important;
+    width: 0%;
+}
