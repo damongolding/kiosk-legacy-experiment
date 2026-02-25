@@ -36,29 +36,35 @@ $(async () => {
       (homeData) => {
         const kioskHomeHTML = $(homeData);
         const kioskDataElement = kioskHomeHTML.find("#kiosk-data");
+        const customCSS = kioskHomeHTML.filter("#custom-css-style-tag");
 
-        if (kioskDataElement.length) {
-          // parse kiosk data
-          kioskData = JSON.parse(kioskDataElement.text());
-
-          // Add progress bar if wanted
-          if (params.show_progress_bar !== "false") {
-            const hasProgressBar = kioskHomeHTML.find(".progress--bar");
-            if (
-              hasProgressBar.length !== 0 ||
-              params.show_progress_bar === "true"
-            ) {
-              p.css("display", "block");
-            }
-          }
-
-          // log version
-          console.log(
-            `\nImmich Kiosk (legacy) version: %c${kioskData.version}`,
-            "color: white; font-weight:600; background-color:#1e83f7; padding:0.3rem 1rem; border-radius:4px;",
-            "\n\n",
-          );
+        console.log(kioskHomeHTML, customCSS);
+        if (customCSS.length) {
+          $("head").append(customCSS.clone());
         }
+
+        if (!kioskDataElement.length) return;
+
+        // parse kiosk data
+        kioskData = JSON.parse(kioskDataElement.text());
+
+        // Add progress bar if wanted
+        if (params.show_progress_bar !== "false") {
+          const hasProgressBar = kioskHomeHTML.find(".progress--bar");
+          if (
+            hasProgressBar.length !== 0 ||
+            params.show_progress_bar === "true"
+          ) {
+            p.css("display", "block");
+          }
+        }
+
+        // log version
+        console.log(
+          `\nImmich Kiosk (legacy) version: %c${kioskData.version}`,
+          "color: white; font-weight:600; background-color:#1e83f7; padding:0.3rem 1rem; border-radius:4px;",
+          "\n\n",
+        );
       },
       "html",
     );

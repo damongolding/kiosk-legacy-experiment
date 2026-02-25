@@ -5,7 +5,8 @@
   "scripts": {
     "dev": "vite",
     "build": "tsc && vite build",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "start": "bun run build && bun run server.ts"
   },
   "devDependencies": {
     "@vitejs/plugin-legacy": "^7.2.1",
