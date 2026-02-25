@@ -2,6 +2,9 @@
 
 Just a quick experiement using jQuery to grab assets from Kiosk's `/asset/new` endpoint.
 
+### Custom CSS
+As this will probably need some custom CSS to make it work. On launch it will grab the [custom CSS](https://docs.immichkiosk.app/configuration/custom-css/) from the Kiosk server and apply it to the page.
+
 ## Prerequisites
 
 If the branch `feature/cors` has not been merged, you will need to pull and use the Kiosk dev build image `ghcr.io/damongolding/immich-kiosk-development:0.33.0-cors`.
