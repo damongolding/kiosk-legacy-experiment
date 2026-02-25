@@ -38,7 +38,6 @@ $(async () => {
         const kioskDataElement = kioskHomeHTML.find("#kiosk-data");
         const customCSS = kioskHomeHTML.filter("#custom-css-style-tag");
 
-        console.log(kioskHomeHTML, customCSS);
         if (customCSS.length) {
           $("head").append(customCSS.clone());
         }

@@ -14,7 +14,7 @@ Example:
 
 ## Prerequisites
 
-If the branch `feature/cors` has not been merged, you will need to pull and use the Kiosk dev build image `ghcr.io/damongolding/immich-kiosk-development:0.33.0-cors`.
+If the branch `feature/cors` has not been merged (will be released in Kiosk v0.33.0), you will need to pull and use the Kiosk dev build image `ghcr.io/damongolding/immich-kiosk-development:0.33.0-cors`.
 
 Then add the following to your config.yaml file:
 
@@ -30,6 +30,34 @@ kiosk:
 ```sh
 cp example.env .env
 ```
+
+## Docker installation
+
+1. Clone the repository
+
+```sh
+git clone https://github.com/damongolding/kiosk-legacy-experiment.git
+```
+
+2. CD into the repository
+
+```sh
+cd kiosk-legacy-experiment
+```
+
+3. Copy and edit the `.env.example` file to `.env`
+
+```sh
+cp .env.example .env
+nano .env
+```
+
+4. Build and run the docker image
+
+```sh
+docker compose up -d
+```
+
 
 ## Supported URL queries:
 
