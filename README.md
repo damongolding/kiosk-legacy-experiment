@@ -14,15 +14,12 @@ Example:
 
 ## Prerequisites
 
-If the branch `feature/cors` has not been merged (will be released in Kiosk v0.33.0), you will need to pull and use the Kiosk dev build image `ghcr.io/damongolding/immich-kiosk-development:0.33.0-cors`.
-
-Then add the following to your config.yaml file:
+Add the following to your Kiosk config.yaml file:
 
 ```yaml
 kiosk:
   allowed_origins:
-    - http://localhost:5432 # This is the default port for the development server
-    # - http://localhost:4173 # This is the default port for the preview server
+    - http://YOUR_IP:4000 # If running via the supplied docker compose
 ```
 
 ### Rename and change the env file
