@@ -70,9 +70,9 @@ $(async () => {
 
     duration = parseInt(params.duration, 10) || kioskData.duration;
 
-    await loadAsset();
+    await loadAsset(params);
 
-    setInterval(() => loadAsset(), duration * 1000 + fadeDuration * 2);
+    setInterval(() => loadAsset(params), duration * 1000 + fadeDuration * 2);
   };
 
   async function resetProgressBar(): Promise<void> {
@@ -81,11 +81,14 @@ $(async () => {
       .animate({ width: "100%" }, duration * 1000, "linear");
   }
 
-  async function loadAsset(): Promise<void> {
+  async function loadAsset(params: Record<string, string>): Promise<void> {
     await k.animate({ opacity: 0 }, fadeDuration).promise();
 
     await new Promise<void>((resolve) => {
-      k.load(`${kioskURL}/asset/new`, params, () => {
+      const assetURL = params.offline
+        ? `${kioskURL}/asset/offline`
+        : `${kioskURL}/asset/new`;
+      k.load(assetURL, params, () => {
         resetProgressBar();
         resolve();
       });
