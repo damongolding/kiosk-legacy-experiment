@@ -2,6 +2,9 @@
 
 Just a quick experiement using jQuery to grab assets from Kiosk's `/asset/new` endpoint.
 
+## Browser support
+I do not own an old hardware but a user has reported this was working on Safari 9 (IOS 9).
+
 ### Custom CSS
 As this will probably need some custom CSS to make it work. On launch it will grab the [custom CSS](https://docs.immichkiosk.app/configuration/custom-css/) from the Kiosk server and apply it to the page. The body has an id of `kiosk-legacy`.
 
