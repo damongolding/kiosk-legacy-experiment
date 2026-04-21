@@ -177,7 +177,7 @@ function setupClock(homeHTML: JQuery, params: Params): void {
   setInterval(() => refreshClock(clock, params), POLL_INTERVAL_MS);
 }
 
-async function setupWeather(homeHTML: JQuery, params: Params): void {
+async function setupWeather(homeHTML: JQuery, params: Params): Promise<void> {
   const kioskWeather = homeHTML.find("#weather-container");
   if (!kioskWeather.length) return;
 
