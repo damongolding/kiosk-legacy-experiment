@@ -1,8 +1,1 @@
-services:
-  kiosk-legacy:
-    build: .
-    ports:
-      - "4444:4000"
-    environment:
-      - NODE_ENV=production
-    restart: unless-stopped
+
