@@ -143,8 +143,8 @@ async function loadNextAsset(
 
   await jqLoad(kiosk, assetURL, params);
 
+  jqAnimate(kiosk, { opacity: 1 }, FADE_DURATION_MS);
   animateProgressBar(progressBar, durationSec);
-  await jqAnimate(kiosk, { opacity: 1 }, FADE_DURATION_MS);
 }
 
 // ---------------------------------------------------------------------------
@@ -241,13 +241,13 @@ async function main(params: Params): Promise<void> {
   setupProgressBar(homeHTML, progressBar, params);
 
   const durationSec = parseInt(params.duration, 10) || kioskData.duration;
-  const assetPollDuration = durationSec * 1000 + FADE_DURATION_MS * 2;
+  const assetPollDuration = durationSec * 1000 + FADE_DURATION_MS;
 
   const assetPoll = () =>
     loadNextAsset(kiosk, progressBar, params, durationSec);
 
   await assetPoll();
-  setInterval(assetPoll, assetPollDuration);
+  setInterval(async () => await assetPoll(), assetPollDuration);
 }
 
 // ---------------------------------------------------------------------------
