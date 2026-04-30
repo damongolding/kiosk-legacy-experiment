@@ -33,9 +33,10 @@ cp example.env .env
 
 ## Docker installation
 
-1. Use the docer-compose.yaml file
+1. Use the [compose.yaml](https://raw.githubusercontent.com/damongolding/immich-kiosk-legacy/refs/heads/master/docker-compose.yaml) file
 2. Change the `KIOSK_URL` env
-3. Run `docker compose up -d`
+3. **Optional**: Change the port
+4. Run `docker compose up -d`
 
 
 ## Supported URL queries:
