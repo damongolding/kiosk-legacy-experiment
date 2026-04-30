@@ -11,6 +11,8 @@ RUN bun run build
 # ---- Stage 2: Runtime with Caddy ----
 FROM caddy:2-alpine AS runtime
 
+RUN apk add --no-cache jq
+
 # Copy built Vite assets
 COPY --from=build /app/dist /srv
 
