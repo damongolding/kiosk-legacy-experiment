@@ -1,31 +1,27 @@
-# Use official Bun image
-FROM oven/bun:1 AS base
+# ---- Stage 1: Build with Bun ----
+FROM oven/bun:1 AS build
 WORKDIR /app
 
-# Install dependencies
-FROM base AS deps
 COPY package.json bun.lockb* ./
 RUN bun install --frozen-lockfile
 
-# Build the application
-FROM base AS build
-COPY --from=deps /app/node_modules ./node_modules
 COPY . .
 RUN bun run build
 
-# Production image
-FROM base AS runtime
-WORKDIR /app
+# ---- Stage 2: Runtime with Caddy ----
+FROM caddy:2-alpine AS runtime
 
-# Copy built assets and server file
-COPY --from=build /app/dist ./dist
-COPY --from=build /app/server.ts ./server.ts
+# Copy built Vite assets
+COPY --from=build /app/dist /srv
 
-# Expose port
-EXPOSE 3000
+# Copy Caddyfile
+COPY Caddyfile /etc/caddy/Caddyfile
 
-# Set environment to production
-ENV NODE_ENV=production
+# Copy the env-inject script and set it as the entrypoint
+COPY docker-entrypoint.sh /docker-entrypoint.sh
+RUN chmod +x /docker-entrypoint.sh
 
-# Run the server
-CMD ["bun", "run", "server.ts"]
+EXPOSE 80
+
+ENTRYPOINT ["/docker-entrypoint.sh"]
+CMD ["caddy", "run", "--config", "/etc/caddy/Caddyfile", "--adapter", "caddyfile"]
