@@ -4,9 +4,10 @@ import $ from "jquery";
 // ---------------------------------------------------------------------------
 // Config & constants
 // ---------------------------------------------------------------------------
-
+const env = (window as any).__ENV__ ?? {};
 const KIOSK_URL =
-  import.meta.env.VITE_KIOSK_URL || ("http://localhost:3000" as const);
+  env.KIOSK_URL ??
+  (import.meta.env.VITE_KIOSK_URL || ("http://localhost:3000" as const));
 const FADE_DURATION_MS = 1500 as const;
 const POLL_INTERVAL_MS = 15_000 as const;
 const ID_CHARSET = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789" as const;

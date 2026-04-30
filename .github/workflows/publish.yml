@@ -1,0 +1,69 @@
+name: GHCR Release
+
+on:
+  push:
+    tags:
+      - "v*"
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up QEMU
+        uses: docker/setup-qemu-action@v3
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: Login to GitHub Container Registry
+        uses: docker/login-action@v3
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GHCR_TOKEN }}
+
+      - name: Extract version from tag
+        id: extract_version
+        run: |
+          VERSION=${GITHUB_REF#refs/tags/}
+          VERSION=${VERSION#v}
+          echo "VERSION=$VERSION" >> $GITHUB_ENV
+
+      - name: Check if pre-release
+        id: check_prerelease
+        env:
+          GH_TOKEN: ${{ github.token }}
+          TAG_NAME: ${{ github.ref_name }}
+        run: |
+          IS_PRERELEASE=$(gh api "/repos/${GITHUB_REPOSITORY}/releases/tags/$TAG_NAME" --jq .prerelease)
+          echo "is_prerelease=$IS_PRERELEASE" >> $GITHUB_OUTPUT
+          echo "IS_PRERELEASE=$IS_PRERELEASE" >> $GITHUB_ENV
+
+      - name: Build and push Docker image
+        run: |
+          IMAGE_NAME=ghcr.io/${{ github.repository_owner }}/immich-kiosk-legacy
+          TIMESTAMP=$(date -u +%Y-%m-%dT%H:%M:%SZ)
+
+          if [ "${{ env.IS_PRERELEASE }}" = "true" ]; then
+            VERSION_TAG="${{ env.VERSION }}-prerelease"
+            TAGS="-t $IMAGE_NAME:$VERSION_TAG"
+          else
+            VERSION_TAG="${{ env.VERSION }}"
+            TAGS="-t $IMAGE_NAME:$VERSION_TAG -t $IMAGE_NAME:latest"
+          fi
+
+          docker buildx build \
+            --platform linux/amd64,linux/arm64 \
+            --push \
+            --cache-from type=gha \
+            --cache-to type=gha,mode=max \
+            --label "org.opencontainers.image.created=$TIMESTAMP" \
+            --label "org.opencontainers.image.revision=${{ github.sha }}" \
+            --label "org.opencontainers.image.source=${{ github.server_url }}/${{ github.repository }}" \
+            --label "org.opencontainers.image.version=$VERSION_TAG" \
+            --label "org.opencontainers.image.authors=${{ github.repository_owner }}" \
+            $TAGS .

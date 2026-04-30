@@ -1,8 +1,8 @@
 services:
   kiosk-legacy:
-    build: .
-    ports:
-      - "4000:4000"
+    image: ghcr.io/damongolding/immich-kiosk-legacy:latest
     environment:
-      - NODE_ENV=production
+      KIOSK_URL: http://localhost:3000
+    ports:
+      - "4000:80"
     restart: unless-stopped
