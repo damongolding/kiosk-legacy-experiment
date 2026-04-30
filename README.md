@@ -33,30 +33,9 @@ cp example.env .env
 
 ## Docker installation
 
-1. Clone the repository
-
-```sh
-git clone https://github.com/damongolding/kiosk-legacy-experiment.git
-```
-
-2. CD into the repository
-
-```sh
-cd kiosk-legacy-experiment
-```
-
-3. Copy and edit the `.env.example` file to `.env`
-
-```sh
-cp .env.example .env
-nano .env
-```
-
-4. Build and run the docker image
-
-```sh
-docker compose up -d
-```
+1. Use the docer-compose.yaml file
+2. Change the `KIOSK_URL` env
+3. Run `docker compose up -d`
 
 
 ## Supported URL queries:
